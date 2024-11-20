@@ -234,36 +234,37 @@
   <body>
     <script>
       // Function to check if the user has access
-     
-       window.onload = async function() {
-           const name = sessionStorage.getItem("name");
-           const password = sessionStorage.getItem("password");
+   window.onload = async function() {
+            const name = sessionStorage.getItem("name");
+            const password = sessionStorage.getItem("password");
 
-           if (!name || !password) {
-               alert("Hey! No bypassing security! 😡");
-              
-             document.body.innerHTML = `<h1>nu uh bad boy!</h1><p>You have been denided access to this page.</p>`;
-               return;
-           }
+            if (!name || !password) {
+                alert("Hey! No bypassing security! 😡");
+                document.body.innerHTML = `<h1>nu uh bad boy!</h1><p>You have been denied access to this page.</p>`;
+                return;
+            }
 
-           // Send the credentials to the server for validation
-           const response = await fetch("/check-name", {
-               method: "POST",
-               headers: { "Content-Type": "application/json" },
-               body: JSON.stringify({ name, password })
-           });
+            // Send the credentials to the server for validation
+            try {
+                const response = await fetch('https://qweujsakdwqesad.github.io/name.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const validPasswords = await response.json();
 
-           const result = await response.json();
-
-           if (!result.access) {
-               alert("Hey! No bypassing security! 😡");
-               // Close the page if access is denied
-              document.body.innerHTML = `<h1>nu uh bad boy!</h1><p>You have been denided access to this page.</p>`;
-           } else {
-               // Access granted - You can display the content of your Website.html here
-             alert(`Welcome, ${name}! You have successfully accessed the protected page.`);
-           }
-       }
+                if (validPasswords[name] !== password) {
+                    alert("Hey! No bypassing security! 😡");
+                    document.body.innerHTML = `<h1>nu uh bad boy!</h1><p>You have been denied access to this page.</p>`;
+                } else {
+                    alert(`Welcome, ${name}! You have successfully accessed the protected page.`);
+                    // You can display the content of your Website.html here
+                }
+            } catch (error) {
+                console.error("Error loading name.json:", error);
+                alert("Error loading credentials. Please try again later.");
+                document.body.innerHTML = `<h1>Error</h1><p>There was an error loading the security check. Please try again later.</p>`;
+            }
+        }
 
       // Call the checkAccess function when the page is loaded
     
@@ -740,6 +741,12 @@
           d: "sports football",
         },
         {
+          n: "Retro Bowl College",
+          sn: "retrocollege",
+          m: "retrobowl.png",
+          d: "sports football",
+        },
+        {
           n: "Slope",
           sn: "slope",
         },
@@ -747,6 +754,10 @@
           n: "Tube Jumpers",
           sn: "jumpers",
           m: "tube-jumpers.png",
+        },
+         {
+          n: "MindCraft Replica",
+          sn: "replicamind",
         },
         {
           n: "2048",
@@ -897,6 +908,7 @@
         },
         {
           n: "Pacman",
+          sn: "https://www.google.com/logos/2010/pacman10-i.html",
         },
         {
           n: "The Oregon Trail",
